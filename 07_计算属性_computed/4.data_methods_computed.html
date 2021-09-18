@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>data_methods_computed</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el:"#root", //指定vm为哪个容器服务
+            data:{ //驱动页面显示的数据都放在这里
+                x:100,
+            },
+            methods:{ //所有用到的函数都要配置在这里，不要写箭头函数
+                y(){ //y直接被放在vm上了
+                    console.log('y被调用了')
+                    return 200
+                }
+            }
+        })
+    </script>
+</body>
+</html>

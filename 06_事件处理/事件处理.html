@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件处理</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>观影来到{{school}}学习</h2>
+
+        <!-- 绑定事件---标准方式 -->
+        <button v-on:click="show1($event)">点我提示信息1（v-on绑定）</button> <br/><br/>
+
+        <!-- 绑定事件---简写方式 -->
+        <button @click="show1">点我提示信息1 （@绑定）</button> <br/><br/>
+
+        <!-- 绑定事件---传递参数 -->
+        <button @click="show2(666,$event)">点我提示信息2（传递参数）</button> <br/><br/>
+
+        <!-- 绑定事件---阻止默认行为，prevent叫事件修饰符 -->
+        <a href="https://www.baidu.com" @click.prevent="show3">点击提示：信息3（阻止默认行为）</a> <br/><br/>
+
+        <!-- 绑定事件---阻止冒泡, 事件修饰符可以连写，且顺序可以随意改变-->
+        <div @click="show4">
+            <a href="https://www.baidu.com" @click.stop.prevent="show4">点我提示：信息4（阻止冒泡）</a>
+        </div> <br/>
+
+        <!-- 绑定事件---键盘事件,常用的是enter esc等 甚至可以直接写键盘编码即keyCode已经被废弃了但能用--该方式灵活性更高 -->
+        <input @keyup.enter="show5" type="text" placeholder="按下回车提示数据">
+        <!-- 可以抵定义按键名，控制台找出对应的按键名key，把驼峰式命名改成小写加-的形式写出 -->
+
+    </div>
+    <script>
+        new Vue({
+            el:"#root",
+            data:{ //配置数据
+                school:'尚硅谷',                
+            },
+            methods:{ //用于配置方法
+                show1(event){
+                    console.log("信息1",event.target.innerText)
+                },
+                show2(number,event){
+                    console.log(event)
+                    alert('信息2---'+number)
+                },
+                show3(event){
+                    // event.preventDefault(); //靠程序员手动组织默认行为
+                    alert('信息3')
+                },
+                show4(event){
+                    alert('信息4')
+                },
+                show5(event){
+                    // if(event.keyCode !== 13) return //靠程序员自己判断按键
+                    console.log(event.target.value)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>引出生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 创建一个容器 -->
+    <div id="root">
+        <h2 :style="{opacity}">分手了怎么办？</h2>
+        <button @click="death">不活了</button>
+    </div>
+
+    <script>
+        new Vue({
+            el:"#root",
+            data:{
+                opacity:1,
+            },
+            methods:{
+                death(){
+                    this.$destroy() //这个销毁：是移除了所有状态的监听，vm还在，只是vm部管理root容器中的数据了，数据的监听也没了
+                    console.log(this)
+                }
+            },
+            // Vue实例挂载完毕，即vm挂载完毕
+            mounted(){
+                // console.log('vm开始管理root容器了',this)
+                this.timer = setInterval(()=>{
+                    console.log('定时器回调正在执行')
+                    this.opacity -= 0.01
+                    if(this.opacity <= 0) this.opacity = 1
+                },16);
+            },
+            // vm将要销毁
+            beforeDestroy(){
+                clearInterval(this.timer)
+            }
+            // // vm将要卸载(组件才能说卸载)
+            // beforeUnmount(){
+            //     clearInterval(this.timer)
+            // }
+        })
+    </script>
+</body>
+</html>

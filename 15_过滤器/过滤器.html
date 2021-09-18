@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/moment.min.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>显示格式化后的时间</h2>
+        <h3>{{time | dateFormater()}}</h3>
+        <h3>{{time | dateFormater('YYYY-MM-DD HH:mm:ss')}}</h3>
+    </div>
+    <script>
+        // 全局注册过滤器
+        Vue.filter('dateFormater',function(value,str='YYYY-MM-DD'){
+            return moment(value).format(str)
+        })
+        new Vue({
+            el:"#root",
+            data:{
+                time:Date.now()
+            },
+        })
+    </script>
+</body>
+</html>

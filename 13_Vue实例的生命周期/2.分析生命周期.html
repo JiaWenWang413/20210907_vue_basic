@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分析生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>当前页面求和为：{{sum}}</h2>
+        <button @click="sum += 1" id="btn">点我+1</button>
+        <button @click="death">点我销毁</button>
+    </div>
+    <script>
+        // 修改Vue的全局配置
+        Vue.config.productionTip = false //关闭生产提示
+        new Vue({
+            el:"#root",
+            data:{
+                sum:0
+            },
+            methods:{
+                add(){
+                    this.sum += 1
+                },
+                death(){
+                    this.$destroy()
+                }
+            },
+            // vue实例初始化前 此钩子：无法通过vm访问到data中的数据、methods中的方法
+            beforeCreate() {
+                console.log('--beforeCreate--')
+                // console.log(this.sum) //undefined
+                // console.log(this.add) //undefined
+            },
+            // vue实例初始化完毕 此钩子中：可以通过vm访问到data中的数据、methods中的方法
+            created(){
+                console.log('--created--')
+                console.log(this.sum)
+                console.log(this.add)
+            },
+            // vue实例挂载之前，即vue实例更新真实DOM之前
+            /* 在此钩子中：
+                1.所有对DOM节点的操作，最终都不奏效
+                2.无法获得解析后的DOM，因为还没有Mount
+            */
+            beforeMount() {
+                console.log('--beforeMount--')
+                const btn = document.getElementById('btn')
+                btn.innerText = '哈哈'
+            },
+            // vue实例更新完真实DOM了（挂载完毕）
+            /*
+                此钩子中：可以操作DOM节点；此时组件已经脱离了初始化阶段，进入了运行阶段，
+                一般在此阶段：开启定时器、发送网络请求等准备性工作
+            */
+            mounted() {
+                console.log('--mounted--')
+                const h2 = document.getElementById('h2')
+                const btn = document.getElementById('btn')
+                btn.innerText = '哈哈'
+                console.log(h2)
+                console.log(btn)
+            },
+            // vue实例将要更新页面,在vue挂载之后数据发生改变后而页面更新之前
+            beforeUpdate() {
+                console.log('--beforeUpdated--')
+                console.log(this.sum)
+            },
+            // vue实例完成页面更新,在vue挂载之后数据和页面都完成更新
+            updated() {
+                console.log('--updated--')
+                console.log(this,sum)
+            },
+            // vue实例销毁之前
+            // 此钩子中：vm所有的：data、method、指令等等，都处于可用状态，马上要执行销毁过程，一般在此钩子中：关闭定时器，取消订阅消息，等收尾工作
+            beforeDestroy() {
+                console.log('--beforeDestroy--')
+                console.log(this.sum) //可以获取
+                console.log(this.add) //可以获取
+            },
+            // vue实例销毁完毕
+            destroyed() {
+                console.log('--destroyed--')
+                console.log('我移除了所有数据的监视，不会更新页面了')
+            },
+        })
+    </script>
+</body>
+</html>

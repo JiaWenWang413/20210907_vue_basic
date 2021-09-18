@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <script>
+        /*
+            不使用框架进行编码时，什么时候用defineProperty？
+                要追加的属性，来自于其他值的加工
+        */
+        let p = {
+            firstName:'张',
+            lastName:'三',
+        }
+
+        Object.defineProperty(p,'fullName',{
+            set(value){
+                const arr = value.split('-')
+                this.firstName = arr[0]
+                this.lastName = arr[1]
+            },
+            get(){ //fullName被读取时，get被调用，且get方法中的this是p
+                return this.firstName + '-' + this.lastName
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初始Vue</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        1.<div id="root">是一个容器，容器中写的不是原始的html代码，而是Vue的模板代码。
+        2.所谓的模板代码，是html+js的混合体
+        3.{{×××}}，×××会自动读取data中的×××属性，×××当表达式去解析
+     -->
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h1>Hello,{{school.name.toUpperCase()}}</h1>
+        <h1>学校坐落在,{{school.address}}</h1>
+        <h1>我学的是,{{school.subject()}}学科</h1>
+        <hr/>
+        <h1>{{school.name,school.address}}</h1> <!-- 最终展示的是name --> 
+        <h1>{{school.name && school.address}}</h1> <!-- 最终展示的是 address -->
+        <h1>{{school.name ? 1 : 2}}</h1> <!-- 最终展示的是 1 -->
+    </div>
+
+    <script>
+        // 整个应用只有一个Vue实例就够了，后来就拆分组件
+        // Vue是一个内层的构造函数，所以创建实例对象是必须用new，this才能指向的是这个实例。否则this是window的对象
+        //创建一个 Vue 的实例对象，并传入配置对象
+        const v = new Vue({
+            // el --> element
+            el:'#root',//el用于指定当前Vue实例为哪个容器服务，值是选择器字符串，选择的写法类似于jQuery
+            data:{//data 是存储数据的地方，为root容器提供数据，值为一个对象
+                school:{
+                    name:'atguigu',
+                    address:'国际信息城',
+                    subject:() => '前端'
+                }         
+            }
+        })
+    </script>
+</body>
+</html>
